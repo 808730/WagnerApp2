@@ -23,17 +23,23 @@
 	<script>
 
 		var map = L.map('map', {
-		center: [-42.00228, 172.16602],
-		zoom: 3
+		center: [52.5, 13.4],
+		zoom: 10
 		});
 		
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		var OSM = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 18,	
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'tip-beuth.km61n1no'
-		}).addTo(map);
+		});
+		
+		var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+					maxZoom: 18,
+					attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+		
 		
             
 		var bedIcon = L.icon({
@@ -47,7 +53,7 @@
         });
 		
 		
-		var huts = new L.LayerGroup().addTo(map);
+		var huts = new L.LayerGroup();
 		
 		L.marker([-42.434892, 171.730555],{icon: bedIcon}).bindPopup("<b>Jim's Flat Hut</b><br />4 Betten, Ofenheizung, Toilette, Gas, Strom, Wassertank.").addTo(huts),
 			
@@ -94,7 +100,8 @@
 		L.marker([-46.123294, 166.672102],{icon: bedIcon}).bindPopup("<b>Te Oneroa A-frame Hut</b><br />2 Betten, nur mit Boot erreichbar.").addTo(huts);
 		
 		var baseMaps = {
-		"OSM": L.tileLayer
+		"OSM": OSM,
+		"Satellite": Esri_WorldImagery		
 		};
 		
 		var overlays = {
